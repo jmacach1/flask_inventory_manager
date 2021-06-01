@@ -8,9 +8,14 @@
   <div class="row">
     <div class="col-md-9 offset-md-2">
       <h1> {{ product.name}} </h1>
+      <p>Id: {{ product.id}} </p>
       <p>Price: {{ "${:,.2f}".format(product.price) }}</p>
       <p>Quantity: {{ product.quantity}} </p>
       <p>Description: {{ product.description}} </p>
+      <p>Category: {{ product.category }}</p>
+      <p>Unique Tag: {{ product.unique_tag }}</p>
+      <p>Active: {{ product.active }}</p>
+
       <a href={{ url_for('get_products') }}>List Products</a>
       <a href={{ url_for('update_product_form', pid=product.id) }} >Update</a>
       <a href="#">Delete</a>

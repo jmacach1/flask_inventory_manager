@@ -33,6 +33,7 @@
           <th scope="col">Category</th>
           <th scope="col">Unique Tag</th>
           <th scope="col">Active</th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -47,6 +48,17 @@
             <td>{{ product.category }}</td>
             <td>{{ product.unique_tag }}</td>
             <td>{{ product.active }}</td>
+            <td>
+              <a href={{ url_for('get_product_detail', pid=product.id) }} class="card-link">
+                View Detail
+              </a> 
+              <span> | </span>
+              <a href={{ url_for('update_product_form', pid=product.id) }} class="card-link">
+                Update
+              </a>
+              <span> | </span>
+              <a href="#"class="card-link">Delete</a>
+            </td>
           </tr>
         {% endfor %}
       </tbody>
@@ -55,8 +67,3 @@
   </div>
 {% endblock content %}
 
-<!-- <a href={{ url_for('get_product_detail', pid=product.id) }} class="card-link">
-  View Detail
-</a>
-<a href={{ url_for('update_product_form', pid=product.id) }} class="card-link">Update</a>
-<a href="#"class="card-link">Delete</a> -->
