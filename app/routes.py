@@ -23,7 +23,7 @@ def index():
 # Read
 @app.route("/products")
 def get_products():
-  products = Product.query.all()
+  products = Product.query.filter_by(active=True)
   return render_template("product_list.html", product_list=products)
 
 @app.route("/products/<int:pid>")
@@ -95,3 +95,20 @@ def delete_product(pid):
   flash(f"Product {product.name} Deleted!")
   return redirect(url_for('get_products'))
     
+# Undo delete
+@app.route("/products/deleted")
+def get_deleted_products():
+  products = Product.query.filter_by(active=False)
+  return render_template("product_list_deleted.html", product_list=products)
+
+@app.route("/products/undo_delete/<int:pid>", methods=["POST"])
+def undo_delete_product(pid):
+  product = Product.query.filter_by(id=pid).first()
+  if product is None:
+    flash(f"Product {pid} does not exist")
+    return redirect(url_for('get_products'))
+
+  product.active = True
+  db.session.commit()
+  flash(f"Product {product.name} Restored!")
+  return redirect(url_for('get_deleted_products'))

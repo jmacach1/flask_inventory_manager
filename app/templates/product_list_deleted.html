@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %} Product Catalog {% endblock title %}
+
+{% block content %}
+  
+  <div class="col-md-12" style="padding: 1%;">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="toast show align-items-center text-white bg-primary border-0"
+              role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+            <div class="d-flex">
+              <div class="toast-body">
+                {{ message }}
+              </div>
+              <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                    data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+          </div>
+        {% endfor %}
+      {% endif%}
+    {% endwith %}
+
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Price</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Description</th>
+          <th scope="col">Category</th>
+          <th scope="col">Unique Tag</th>
+          <th scope="col">Active</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- id	name	price	quantity	description	category	unique_tag	active -->
+        {% for product in product_list %}
+          <tr>
+            <th scope="row">{{ product.id }}</th>
+            <td>{{ product.name }}</td>
+            <td>{{ "${:,.2f}".format(product.price) }}</td>
+            <td>{{ product.quantity }}</td>
+            <td>{{ product.description }}</td>
+            <td>{{ product.category }}</td>
+            <td>{{ product.unique_tag }}</td>
+            <td>{{ product.active }}</td>
+            <td>
+              <form method="POST" action={{ url_for('undo_delete_product', pid=product.id) }} style="display:inline">
+                <button type="submit">Restore</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    
+  </div>
+{% endblock content %}
+
