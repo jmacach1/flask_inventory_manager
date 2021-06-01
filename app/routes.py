@@ -106,9 +106,22 @@ def undo_delete_product(pid):
   product = Product.query.filter_by(id=pid).first()
   if product is None:
     flash(f"Product {pid} does not exist")
-    return redirect(url_for('get_products'))
+    return redirect(url_for('get_deleted_products'))
 
   product.active = True
   db.session.commit()
   flash(f"Product {product.name} Restored!")
+  return redirect(url_for('get_deleted_products'))
+
+  # Hard delete
+@app.route("/products/hard_delete/<int:pid>", methods=["POST"])
+def hard_delete_product(pid):
+  product = Product.query.filter_by(id=pid).first()
+  if product is None:
+    flash(f"Product {pid} does not exist")
+    return redirect(url_for('get_deleted_products'))
+
+  db.session.delete(product)
+  db.session.commit()
+  flash(f"Product {product.name} deleted completely from Database!")
   return redirect(url_for('get_deleted_products'))

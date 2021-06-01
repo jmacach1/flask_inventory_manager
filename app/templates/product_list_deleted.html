@@ -52,6 +52,9 @@
               <form method="POST" action={{ url_for('undo_delete_product', pid=product.id) }} style="display:inline">
                 <button type="submit">Restore</button>
               </form>
+              <form method="POST" action={{ url_for('hard_delete_product', pid=product.id) }} style="display:inline">
+                <button type="submit">Hard Delete</button>
+              </form>
             </td>
           </tr>
         {% endfor %}
