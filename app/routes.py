@@ -47,10 +47,13 @@ def create_product():
         product.price = form.price.data
         product.quantity = form.quantity.data
         product.description = form.description.data
+        product.category = form.category.data
+        product.unique_tag = form.unique_tag.data
         db.session.add(product)
         db.session.commit()
-        flash("Product created!")
+        flash(f"Product {product.name} created!")
         return redirect(url_for('get_products'))
+
     flash("Invalid data")
     return redirect(url_for('get_products'))
 
@@ -70,10 +73,25 @@ def update_product(pid):
     product.price = form.price.data
     product.quantity = form.quantity.data
     product.description = form.description.data
+    product.category = form.category.data
+    product.unique_tag = form.unique_tag.data
     db.session.commit()
-    flash("Product Updated!")
+    flash(f"Product {product.name} Updated!")
     return redirect(url_for('get_products'))
     
   flash("Invalid Data!")
   return redirect(url_for('get_products'))
 
+# Delete
+@app.route("/products/delete/<int:pid>", methods=["POST"])
+def delete_product(pid):
+  product = Product.query.filter_by(id=pid).first()
+  if product is None:
+    flash(f"Product {pid} does not exist")
+    return redirect(url_for('get_products'))
+
+  product.active = False
+  db.session.commit()
+  flash(f"Product {product.name} Deleted!")
+  return redirect(url_for('get_products'))
+    

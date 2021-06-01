@@ -15,3 +15,5 @@ class ProductForm(Form):
   price = FloatField("Price", [validators.required()], render_kw=style)
   quantity = IntegerField("Quantity", [validators.required()], render_kw=style)
   description = TextField("Description", [validators.required()], render_kw=style)
+  category = StringField("category", [validators.required()], render_kw=style)
+  unique_tag = StringField("unique_tag", [validators.required()], render_kw=style)

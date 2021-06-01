@@ -49,15 +49,15 @@
             <td>{{ product.unique_tag }}</td>
             <td>{{ product.active }}</td>
             <td>
-              <a href={{ url_for('get_product_detail', pid=product.id) }} class="card-link">
-                View Detail
-              </a> 
-              <span> | </span>
-              <a href={{ url_for('update_product_form', pid=product.id) }} class="card-link">
-                Update
-              </a>
-              <span> | </span>
-              <a href="#"class="card-link">Delete</a>
+              <button href={{ url_for('get_product_detail', pid=product.id) }}>
+                Details
+              </button> 
+              <button href={{ url_for('update_product_form', pid=product.id) }}>
+                ✏️
+              </button>
+              <form method="POST" action={{ url_for('delete_product', pid=product.id) }} style="display:inline">
+                <button type="submit">❌</button>
+              </form>
             </td>
           </tr>
         {% endfor %}
