@@ -7,8 +7,8 @@ from flask import (
   )
 from app import app, db
 from datetime import datetime
-from app.database import Product
-from app.forms import ProductForm
+from app.database import Product, Review
+from app.forms import ProductForm, ReviewForm
 
 @app.route("/")
 def index():
@@ -29,7 +29,8 @@ def get_products():
 @app.route("/products/<int:pid>")
 def get_product_detail(pid):
   product = Product.query.filter_by(id=pid).first()
-  return render_template("product_detail.html", product=product)
+  reviews = Review.query.filter_by(product_id=pid)
+  return render_template("product_detail.html", product=product, reviews=reviews)
 
 # Create
 @app.route("/products/registration")
@@ -125,3 +126,29 @@ def hard_delete_product(pid):
   db.session.commit()
   flash(f"Product {product.name} deleted completely from Database!")
   return redirect(url_for('get_deleted_products'))
+
+
+# Create Review
+@app.route("/review/create_form/<int:pid>")
+def create_review_form(pid):
+  product = Product.query.filter_by(id=pid).first()
+  review_form = ReviewForm()
+  return render_template("create_review_form.html", form=review_form, product=product)
+
+@app.route("/review/<int:pid>", methods=["POST"])
+def create_review(pid):
+    """Creating a review"""
+    form = ReviewForm(request.form)
+    if form.validate():
+      review = Review()
+      review.author = form.author.data
+      review.rating = form.rating.data
+      review.review_text = form.review_text.data
+      review.product_id = form.product_id.data
+      db.session.add(review)
+      db.session.commit()
+      flash(f"Review created!")
+      return redirect(url_for('get_product_detail', pid=pid))
+
+    flash("Invalid data")
+    return redirect(url_for('get_product_detail', pid=pid))

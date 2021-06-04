@@ -49,14 +49,14 @@
             <td>{{ product.unique_tag }}</td>
             <td>{{ product.active }}</td>
             <td>
-              <button href={{ url_for('get_product_detail', pid=product.id) }}>
+              <a href={{ url_for('get_product_detail', pid=product.id) }} class="btn btn-primary">
                 Details
-              </button> 
-              <button href={{ url_for('update_product_form', pid=product.id) }}>
+              </a> 
+              <a href={{ url_for('update_product_form', pid=product.id) }} class="btn btn-primary">
                 ✏️
-              </button>
+              </a>
               <form method="POST" action={{ url_for('delete_product', pid=product.id) }} style="display:inline">
-                <button type="submit">❌</button>
+                <button type="submit" class="btn">❌</button>
               </form>
             </td>
           </tr>

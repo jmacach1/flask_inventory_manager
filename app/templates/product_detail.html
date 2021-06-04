@@ -16,9 +16,37 @@
       <p>Unique Tag: {{ product.unique_tag }}</p>
       <p>Active: {{ product.active }}</p>
 
-      <a href={{ url_for('get_products') }}>List Products</a>
-      <a href={{ url_for('update_product_form', pid=product.id) }} >Update</a>
-      <a href="#">Delete</a>
+      <a href={{ url_for('get_products') }} class="btn btn-primary">List Products</a>
+      <a href={{ url_for('update_product_form', pid=product.id) }} class="btn btn-primary">Update</a>
+      <form method="POST" action={{ url_for('delete_product', pid=product.id) }} style="display:inline">
+        <button type="submit" class="btn btn-secondary">❌</button>
+      </form>
     </div>
   </div>
+  <br/>
+  <div class="row">
+    <div class="col-md-9 offset-md-2">
+      <h2> Reviews</h2>
+      <a href={{ url_for('create_review_form', pid=product.id) }} class="btn btn-primary" >Add Review</a>
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">author</th>
+            <th scope="col">rating</th>
+            <th scope="col">review_text</th>
+          </tr>
+        </thead>
+        <tbody> 
+          {% for review in reviews %}
+            <tr>
+              <td>{{ review.author }}</td>
+              <td>{{ review.rating }}</td>
+              <td>{{ review.review_text }}</td>
+            </tr> 
+          {% endfor %}
+        </tbody>
+ 
+    </div>
+  </div>
+
 {% endblock content %}
