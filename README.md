@@ -23,3 +23,8 @@ POST "/products/delete/<int:pid>" - soft delete on product, active field is set 
 POST "/products/undo_delete/<int:pid>" - undo soft delete (restore) active field is set to value True
 
 POST "/products/hard_delete/<int:pid>" - product is removed from database
+
+### Reviews
+GET "/review/create_form/<int:pid>" - form for create a review
+
+POST "/review/<int:pid>" - creates a review

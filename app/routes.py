@@ -139,6 +139,11 @@ def create_review_form(pid):
 def create_review(pid):
     """Creating a review"""
     form = ReviewForm(request.form)
+
+    product = Product.query.filter_by(id=pid).first()
+    if product is None:
+      flash(f"Product {pid} does not exist")
+      return redirect(url_for('get_products'))
     if form.validate():
       review = Review()
       review.author = form.author.data
